@@ -1,0 +1,76 @@
+<script>
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function computerPlay() {
+        let choice = getRandomInt(0, 2);
+        if(choice == 0) {
+            return "Rock";
+        } else if(choice == 1) {
+            return "Paper";
+        } else {
+            return "Scissors";
+        }
+    }
+    function game() {
+        let count = 0;
+        let playerScore = 0;
+        let computerScore = 0;
+        while(count < 5) {
+            let playerSelection = window.prompt("Rock, Paper, Scissors?");
+            let computerSelection = computerPlay();
+            console.log(playRound(playerSelection, computerSelection));
+            printCurrentScore(playerScore, computerScore);
+            count++;
+        }
+        printFinalScore(playerScore, computerScore);
+        function playRound(playerSelection, computerSelection) {
+            let playerSelectionLower = playerSelection.toLowerCase();
+            let computerSelectionLower = computerSelection.toLowerCase();
+            let playerSelectionCap = capitalizeFirstLetter(playerSelectionLower);
+            if (playerSelectionLower === computerSelectionLower) {
+                return tieString(playerSelectionCap, computerSelection);
+            } else if (playerSelectionLower === "rock" && computerSelectionLower === "scissors") {
+                playerScore++;
+                return playerWinString(playerSelectionCap, computerSelection);
+            } else if (playerSelectionLower === "scissors" && computerSelectionLower === "paper") {
+                playerScore++;
+                return playerWinString(playerSelectionCap, computerSelection);
+            } else if (playerSelectionLower === "paper" && computerSelectionLower === "rock") {
+                playerScore++;
+                return playerWinString(playerSelectionCap, computerSelection);
+            } else {
+                computerScore++;
+                return playerLoseString(playerSelectionCap, computerSelection);
+            }
+        }
+        function printCurrentScore(playerScore, computerScore) {
+            console.log("Your Score: " + playerScore);
+            console.log("Computer's Score: " + computerScore);
+        }
+        function printFinalScore(playerScore, computerScore) {
+            if (playerScore === computerScore) {
+                console.log(playerScore + " to " + computerScore + ". Tie!");
+            } else if (playerScore > computerScore) {
+                console.log(playerScore + " to " + computerScore + ". You Win the Game!");
+            } else {
+                console.log(playerScore + " to " + computerScore + ". You Lose the Game!");
+            }
+        }
+    }
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    function tieString(playerSelection, computerSelection) {
+        return playerSelection + " vs " + computerSelection + " -> Tie!"
+    }
+    function playerWinString(playerSelection, computerSelection) {
+        return "You Win the Round! " + playerSelection + " beats " + computerSelection;
+    }
+    function playerLoseString(playerSelection, computerSelection) {
+        return "You Lose the Round! " + computerSelection + " beats " + playerSelection;
+    }
+    game();
+    </script>
